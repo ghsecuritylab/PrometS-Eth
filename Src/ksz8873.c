@@ -1,5 +1,7 @@
 #include "main.h"
 
+#include "ksz8873.h"
+
 // PHY KSZ8873ÀÇ Interrupt ¹ß»ý
 void EXTI0_IRQHandler(void)
 {

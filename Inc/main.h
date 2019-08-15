@@ -80,6 +80,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define PHY_nINT_Pin GPIO_PIN_0
 #define PHY_nINT_GPIO_Port GPIOC
+#define LED_nTST_Pin GPIO_PIN_11
+#define LED_nTST_GPIO_Port GPIOH
+#define DPR_nINT_Pin GPIO_PIN_12
+#define DPR_nINT_GPIO_Port GPIOH
 #define PHY_nRST_Pin GPIO_PIN_4
 #define PHY_nRST_GPIO_Port GPIOI
 /* USER CODE BEGIN Private defines */
