@@ -9,7 +9,7 @@ extern "C" {
 #endif
 
 
-extern void MdTcp_Server_Init(void const *port);
+extern void StartMdTcpServerTask(void const * argument);
 
 
 #ifdef __cplusplus

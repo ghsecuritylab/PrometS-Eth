@@ -4,8 +4,13 @@
 
 #include "dpram.h"
 
+#define LINK_DISCON ((int32_t)(0))
 
-osMutexId DpRamMutexHandle;
+
+static osMutexId DpRamMutexHandle;
+
+static int32_t dpram_linkstatus;
+
 
 // Dual Port Ram의 Interrupt 발생
 void EXTI15_10_IRQHandler(void)
@@ -30,8 +35,9 @@ void dpram_init(void)
 	osMutexDef(DpRamMutex);
 	DpRamMutexHandle = osMutexCreate(osMutex(DpRamMutex));
 
-
-
+	// 초기 상태를 연결이 안되어 있는 것으로
+	dpram_linkstatus = LINK_DISCON;
+	printf("DPRAM: Link Status Disconnected\r\n" );
 }
 
 

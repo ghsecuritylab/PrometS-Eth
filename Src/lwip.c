@@ -54,10 +54,8 @@
 #if defined ( __CC_ARM )  /* MDK ARM Compiler */
 #include "lwip/sio.h"
 #endif /* MDK ARM Compiler */
-#include "ethernetif.h"
 
 /* USER CODE BEGIN 0 */
-
 /* USER CODE END 0 */
 /* Private function prototypes -----------------------------------------------*/
 /* ETH Variables initialization ----------------------------------------------*/
@@ -66,10 +64,6 @@ void Error_Handler(void);
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-/* Semaphore to signal Ethernet Link state update */
-osSemaphoreId Netif_LinkSemaphore = NULL;
-/* Ethernet link thread Argument */
-struct link_str link_arg;
 
 /* Variables Initialization */
 struct netif gnetif;
@@ -128,21 +122,7 @@ void MX_LWIP_Init(void)
     netif_set_down(&gnetif);
   }
 
-  /* Set the link callback function, this function is called on change of link status*/
-  netif_set_link_callback(&gnetif, ethernetif_update_config);
-
-  /* create a binary semaphore used for informing ethernetif of frame reception */
-  osSemaphoreDef(Netif_SEM);
-  Netif_LinkSemaphore = osSemaphoreCreate(osSemaphore(Netif_SEM) , 1 );
-
-  link_arg.netif = &gnetif;
-  link_arg.semaphore = Netif_LinkSemaphore;
-  /* Create the Ethernet link handler thread */
-  osThreadDef(LinkThr, ethernetif_set_link, osPriorityNormal, 0, configMINIMAL_STACK_SIZE * 2);
-  osThreadCreate (osThread(LinkThr), &link_arg);
-
 /* USER CODE BEGIN 3 */
-
 /* USER CODE END 3 */
 }
 

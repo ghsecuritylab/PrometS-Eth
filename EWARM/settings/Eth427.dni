@@ -2,7 +2,7 @@
 stlinkserialNo=DFACAA04
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=-60315621
+Checksum=-1344055726
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0

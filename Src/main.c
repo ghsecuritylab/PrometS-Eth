@@ -45,6 +45,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+// by Sooan Choi
+#include "MdTcpSrv.h"		// Modbus Tcp
+#include "dpram.h"
 
 /* USER CODE END Includes */
 
@@ -71,8 +74,9 @@ NAND_HandleTypeDef hnand1;
 SDRAM_HandleTypeDef hsdram2;
 
 osThreadId defaultTaskHandle;
-osMutexId myMutex01Handle;
 /* USER CODE BEGIN PV */
+osThreadId MbTcpTaskHandle1;		// Modbus-Tcp hanlde1를 선언
+
 
 /* USER CODE END PV */
 
@@ -141,21 +145,20 @@ int main(void)
 	FMC_SDRAM_CommandTypeDef Command;
 	BSP_SDRAM_Initialization_Sequence(&hsdram2, &Command);
 
-  printf("Promet-S Ethernet for STM32F4xx. Ver 1.0b0\r\n");
-  printf("Compiled on %s, %s\r\n", __TIME__, __DATE__);
-  printf("Copywrite by Sooan. Neopis Co., Ltd. South Korea\r\n\n");
+	printf("Promet-S Ethernet for STM32F4xx. Ver 1.0b0\r\n");
+	printf("Compiled on %s, %s\r\n", __TIME__, __DATE__);
+	printf("Copywrite by Sooan. Neopis Co., Ltd. South Korea\r\n\n");
 
-  printf("Running on System Clock Speed %3uMHz\r\n", (unsigned)HAL_RCC_GetSysClockFreq()/1000000);
-  printf("HCLK   = %3uMHz\r\n", (unsigned)HAL_RCC_GetHCLKFreq()/1000000);
-  printf("PCLK1  = %3uMHz\r\n", (unsigned)HAL_RCC_GetPCLK1Freq()/1000000);
-  printf("PCLK2  = %3uMHz\r\n", (unsigned)HAL_RCC_GetPCLK2Freq()/1000000);
+	printf("Running on System Clock Speed %3uMHz\r\n", (unsigned)HAL_RCC_GetSysClockFreq()/1000000);
+	printf("HCLK   = %3uMHz\r\n", (unsigned)HAL_RCC_GetHCLKFreq()/1000000);
+	printf("PCLK1  = %3uMHz\r\n", (unsigned)HAL_RCC_GetPCLK1Freq()/1000000);
+	printf("PCLK2  = %3uMHz\r\n", (unsigned)HAL_RCC_GetPCLK2Freq()/1000000);
+	printf("\n");
+
+
+	dpram_init();
 
   /* USER CODE END 2 */
-
-  /* Create the mutex(es) */
-  /* definition and creation of myMutex01 */
-  osMutexDef(myMutex01);
-  myMutex01Handle = osMutexCreate(osMutex(myMutex01));
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -176,16 +179,25 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  uint16_t port = 502;
+
+  osThreadDef(MbTcpTask1, StartMdTcpServerTask, osPriorityNormal, 0, 128);
+  MbTcpTaskHandle1 = osThreadCreate(osThread(MbTcpTask1), &port);
+
+  // port = 503;	// 혹시 2개를 운용할 때
+  // osThreadDef(MbTcpTask2, StartMdTcpServerTask, osPriorityNormal, 0, 128);
+  // MbTcpTaskHandle2 = osThreadCreate(osThread(MbTcpTask2), &port);
+
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
-
+ 
 
   /* Start scheduler */
   osKernelStart();
-
+  
   /* We should never get here as control is now taken by the scheduler */
 
   /* Infinite loop */
@@ -208,11 +220,11 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /**Configure the main internal regulator output voltage
+  /**Configure the main internal regulator output voltage 
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-  /**Initializes the CPU, AHB and APB busses clocks
+  /**Initializes the CPU, AHB and APB busses clocks 
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
@@ -226,7 +238,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /**Initializes the CPU, AHB and APB busses clocks
+  /**Initializes the CPU, AHB and APB busses clocks 
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -534,7 +546,7 @@ void StartDefaultTask(void const * argument)
   {
     osDelay(1);
   }
-  /* USER CODE END 5 */
+  /* USER CODE END 5 */ 
 }
 
 /**
@@ -579,7 +591,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{
+{ 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
