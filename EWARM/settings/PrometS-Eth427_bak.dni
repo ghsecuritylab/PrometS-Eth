@@ -1,8 +1,8 @@
 [stlink]
-stlinkserialNo=DFACAA04
+stlinkserialNo=13EA53A4
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=-373938054
+Checksum=1070658461
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -16,10 +16,6 @@ UseTrigger=1
 TriggerName=main
 LimitSize=0
 ByteLimit=50
-[CallStack]
-ShowArgs=0
-[Disassembly]
-MixedMode=1
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -27,10 +23,14 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[CallStack]
+ShowArgs=0
+[Disassembly]
+MixedMode=1
 [CallStackLog]
 Enabled=0
 [CallStackStripe]
-ShowTiming=1
+ShowTiming=164
 [Disassemble mode]
 mode=0
 [Breakpoints2]

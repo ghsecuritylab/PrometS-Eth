@@ -35,6 +35,11 @@ void dpram_init(void)
 	osMutexDef(DpRamMutex);
 	DpRamMutexHandle = osMutexCreate(osMutex(DpRamMutex));
 
+
+	// osMutexWait(DpRamMutex,osWaitForever)
+	// function();
+	// osMutexRelease(DpRamMutex);
+
 	// 초기 상태를 연결이 안되어 있는 것으로
 	dpram_linkstatus = LINK_DISCON;
 	printf("DPRAM: Link Status Disconnected\r\n" );

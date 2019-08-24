@@ -3,7 +3,7 @@
 <project>
   <fileVersion>2</fileVersion>
   <configuration>
-    <name>Eth427</name>
+    <name>PrometS-Eth427_bak</name>
     <toolchain>
       <name>ARM</name>
     </toolchain>
@@ -1058,36 +1058,48 @@
     </group>
     <group>
       <name>User</name>
-      <file>
-        <name>$PROJ_DIR$\..\Src\dpram.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\ethernetif.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\freertos.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\lwip.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\main.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\mapPrometS.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\MdTcpSrv.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\stm32f4xx_hal_msp.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\stm32f4xx_hal_timebase_tim.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\stm32f4xx_it.c</name>
-      </file>
+      <group>
+        <name>Core</name>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\fmc.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\freertos.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\gpio.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\main.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\stm32f4xx_hal_msp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\stm32f4xx_hal_timebase_tim.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\stm32f4xx_it.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\usart.c</name>
+        </file>
+      </group>
+      <group>
+        <name>LwIP</name>
+        <group>
+          <name>App</name>
+          <file>
+            <name>$PROJ_DIR$\..\LWIP\App\lwip.c</name>
+          </file>
+        </group>
+        <group>
+          <name>Target</name>
+          <file>
+            <name>$PROJ_DIR$\..\LWIP\Target\ethernetif.c</name>
+          </file>
+        </group>
+      </group>
     </group>
   </group>
   <group>
@@ -1095,7 +1107,7 @@
     <group>
       <name>CMSIS</name>
       <file>
-        <name>$PROJ_DIR$\..\Src\system_stm32f4xx.c</name>
+        <name>$PROJ_DIR$\..\Core\Src\system_stm32f4xx.c</name>
       </file>
     </group>
     <group>
@@ -1375,9 +1387,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Middlewares\Third_Party\LwIP\src\netif\slipif.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\LwIP\src\apps\sntp\sntp.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Middlewares\Third_Party\LwIP\src\api\sockets.c</name>

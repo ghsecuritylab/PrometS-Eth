@@ -2,6 +2,8 @@
 #define __DUALPORTRAM_H__
 
 
+#define	DPRAM_BASE	(0x68000000)
+
 #ifdef	__cplusplus
 extern "C" {
 #endif

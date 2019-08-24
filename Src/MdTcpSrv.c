@@ -14,41 +14,93 @@ void mdtcp_ServerSocketTask(void const * argument)
 	uint8_t txbuff[8];
 
 	MBDU_FRAME rxFrame;
+	MBDU_FRAME txFrame;
+
 
 	int32_t sock_id = *((int32_t*)argument);
-	int32_t recv_size;
-	int32_t parse_state = 0;
+
+	int32_t rxFrameSize = 0;
+	int32_t recv_size = 0;
 	int32_t recv_len = 0;
+
+	int32_t parse_state = 0;
+	uint8_t *pRxPtr = (uint8_t*)&rxFrame;
+	uint32_t old_tick, new_tick;
 
 	for(;;)
 	{
-		recv_size = recv(sock_id, rxbuff, 8, 0);
-
-		if (  recv_size > 0 )	// 수신된 데이터가 있으면
+		// 수신된 데이터가 없으면 수신 대기 상태로 들어간다
+		if ( recv_size <= 0 )
 		{
-			if ( parse_state == 0 )		// waiting head
-			{
+			recv_size = recv(sock_id, rxbuff, 6, 0);
+
+			// 수신된 데이터의 tick을 기록한다
+			new_tick = HAL_GetTick();
+		}
+
+		if ( recv_size <= 0 )	break;		// goto socket close
+
+		recv_len = 0;
+
+		// 얼마만에 오는지 찍어보자
+		// printf("mbtcp: recv = %d, tick = %d\r\n", recv_size, new_tick);
+
+		if ( (new_tick -  old_tick) >= (uint32_t)100 )
+		{	// 수신 간격이 100msec보다 크다면 다시 parsing한다
+			parse_state = 0;
+			rxFrameSize = 0;
+			pRxPtr = (uint8_t*)&rxFrame;
+			// printf("clear\r\n");
+		}
+
+		// tick을 update한다
+		old_tick = new_tick;
+
+		while ( recv_size-- )
+		{
+			if ( parse_state == 0 )
+			{	// parse head
+				*pRxPtr++ = rxbuff[recv_len++];
+				rxFrameSize++;
+
+				if ( rxFrameSize >= sizeof(MBDU_HEAD) )
+				{
+					rxFrame.Head.usLength = ntohs(rxFrame.Head.usLength);
+					rxFrame.Head.usTransID = ntohs(rxFrame.Head.usTransID);
+
+					parse_state = 1;	// parse body
+				};
 			}
+			else
+			{	// parse body
+				*pRxPtr++ = rxbuff[recv_len++];
+				rxFrameSize++;
 
-			// 수신된 데이터를
-			send(sock_id, txbuff, 7, 0);
-		}
-		else		// error or close를 수신하였을 때
-		{
-			// socket을 닫는다
-			close(sock_id);
+				if( rxFrameSize >= (int32_t)(rxFrame.Head.usLength + sizeof(MBDU_HEAD)) )
+				{	// frame 수신 완료
 
-			printf("mbtcp: sock closed %d\r\n", sock_id);
-			osDelay(100);
 
-			// thread를 중지한다
-			osThreadTerminate(NULL);
+					// 수신한 1 frame를 처리하였으므로 다음을 위하여 변수를 초기화 한다
+					pRxPtr = (uint8_t*)&rxFrame;
+					rxFrameSize = 0;
+					parse_state = 0;	// parse body
 
-			break;
-		}
+					osDelay(10);
+				}
+			};
+		};	// end of while
 
-		osDelay(10);
+		// osDelay(10);
 	}
+
+	// socket을 닫는다
+	close(sock_id);
+
+	printf("mbtcp: sock closed %d\r\n", sock_id);
+	osDelay(100);
+
+	// thread를 중지한다
+	osThreadTerminate(NULL);
 }
 
 /*
@@ -84,8 +136,6 @@ void StartMdTcpServerTask(void const *port)
 
 	osThreadDef(mdtcpSrvTask, mdtcp_ServerSocketTask, osPriorityNormal, 1, 1024);
 
-	// lwip stack이 충뷴히 동작하였을 때 socket을 열도록 한다
-	osDelay(10000);
 	// 모드버스 TCP server socket 생성
 	if ( sock_id = socket (PF_INET, SOCK_STREAM, 0) < 0 )
 	{

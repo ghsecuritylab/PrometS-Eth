@@ -3,7 +3,7 @@
 <project>
   <fileVersion>2</fileVersion>
   <configuration>
-    <name>Eth427</name>
+    <name>PrometS-Eth427_bak</name>
     <toolchain>
       <name>ARM</name>
     </toolchain>
@@ -17,15 +17,15 @@
         <debug>1</debug>
         <option>
           <name>ExePath</name>
-          <state>Eth427/Exe</state>
+          <state>PrometS-Eth427_bak/Exe</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>Eth427/Obj</state>
+          <state>PrometS-Eth427_bak/Obj</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>Eth427/List</state>
+          <state>PrometS-Eth427_bak/List</state>
         </option>
         <option>
           <name>GEndianMode</name>
@@ -247,7 +247,7 @@
         <option>
           <name>CCAllowList</name>
           <version>1</version>
-          <state>00000000</state>
+          <state>11111110</state>
         </option>
         <option>
           <name>CCDebugInfo</name>
@@ -315,11 +315,16 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state>$PROJ_DIR$/../Inc</state>
+          <state>$PROJ_DIR$/../Core/Inc</state>
+          <state>$PROJ_DIR$/../LWIP/App</state>
+          <state>$PROJ_DIR$/../LWIP/Target</state>
           <state>$PROJ_DIR$/../Middlewares/Third_Party/LwIP/src/include</state>
           <state>$PROJ_DIR$/../Middlewares/Third_Party/LwIP/system</state>
           <state>$PROJ_DIR$/../Drivers/STM32F4xx_HAL_Driver/Inc</state>
           <state>$PROJ_DIR$/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</state>
+          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/include</state>
+          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</state>
+          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F</state>
           <state>$PROJ_DIR$/../Middlewares/Third_Party/LwIP/src/include/netif/ppp</state>
           <state>$PROJ_DIR$/../Drivers/CMSIS/Device/ST/STM32F4xx/Include</state>
           <state>$PROJ_DIR$/../Middlewares/Third_Party/LwIP/src/include/lwip</state>
@@ -331,9 +336,6 @@
           <state>$PROJ_DIR$/../Middlewares/Third_Party/LwIP/src/include/posix/sys</state>
           <state>$PROJ_DIR$/../Middlewares/Third_Party/LwIP/system/arch</state>
           <state>$PROJ_DIR$/../Drivers/CMSIS/Include</state>
-          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/include</state>
-          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</state>
-          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -353,7 +355,7 @@
         </option>
         <option>
           <name>CCOptLevel</name>
-          <state>1</state>
+          <state>3</state>
         </option>
         <option>
           <name>CCOptStrategy</name>
@@ -362,7 +364,7 @@
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>1</state>
+          <state>3</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -591,7 +593,7 @@
         </option>
         <option>
           <name>AUserIncludes</name>
-          <state>$PROJ_DIR$\..\\Inc</state>
+          <state>$PROJ_DIR$\..\Core\Inc</state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>
@@ -625,7 +627,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>Eth427.hex</state>
+          <state>PrometS-Eth427_bak.hex</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -680,7 +682,7 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>Eth427.out</state>
+          <state>PrometS-Eth427_bak.out</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>
@@ -986,36 +988,48 @@
     </group>
     <group>
       <name>User</name>
-      <file>
-        <name>$PROJ_DIR$\..\Src\dpram.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\ethernetif.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\freertos.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\lwip.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\main.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\mapPrometS.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\MdTcpSrv.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\stm32f4xx_hal_msp.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\stm32f4xx_hal_timebase_tim.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\stm32f4xx_it.c</name>
-      </file>
+      <group>
+        <name>Core</name>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\fmc.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\freertos.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\gpio.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\main.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\stm32f4xx_hal_msp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\stm32f4xx_hal_timebase_tim.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\stm32f4xx_it.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Core\Src\usart.c</name>
+        </file>
+      </group>
+      <group>
+        <name>LwIP</name>
+        <group>
+          <name>App</name>
+          <file>
+            <name>$PROJ_DIR$\..\LWIP\App\lwip.c</name>
+          </file>
+        </group>
+        <group>
+          <name>Target</name>
+          <file>
+            <name>$PROJ_DIR$\..\LWIP\Target\ethernetif.c</name>
+          </file>
+        </group>
+      </group>
     </group>
   </group>
   <group>
@@ -1023,7 +1037,7 @@
     <group>
       <name>CMSIS</name>
       <file>
-        <name>$PROJ_DIR$\..\Src\system_stm32f4xx.c</name>
+        <name>$PROJ_DIR$\..\Core\Src\system_stm32f4xx.c</name>
       </file>
     </group>
     <group>
@@ -1303,9 +1317,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Middlewares\Third_Party\LwIP\src\netif\slipif.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\LwIP\src\apps\sntp\sntp.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Middlewares\Third_Party\LwIP\src\api\sockets.c</name>
